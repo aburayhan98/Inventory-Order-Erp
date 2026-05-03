@@ -5,6 +5,7 @@ using Inventory.Business.Services;
 using Inventory.DataAccess.Connection;
 using Inventory.DataAccess.Data.Commands;
 using Inventory.DataAccess.Data.Queries;
+using Inventory.Web.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +37,12 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseGlobalExceptionHandling();
+
+app.UseRouting();
 
 app.UseRouting();
 
