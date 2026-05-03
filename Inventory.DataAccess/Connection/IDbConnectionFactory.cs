@@ -1,5 +1,8 @@
-﻿namespace Inventory.DataAccess.Connection;
+﻿using System.Data;
 
-internal class IDbConnectionFactory
+namespace Inventory.DataAccess.Connection;
+
+public interface IDbConnectionFactory
 {
+	IDbConnection CreateConnection();
 }
