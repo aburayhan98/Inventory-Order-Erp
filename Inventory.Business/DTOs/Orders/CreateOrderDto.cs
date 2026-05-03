@@ -1,5 +1,8 @@
 ﻿namespace Inventory.Business.DTOs.Orders;
 
-internal class CreateOrderDto
+public class CreateOrderDto
 {
+	public string CustomerName { get; set; } = string.Empty;
+
+	public List<CreateOrderItemDto> Items { get; set; } = new();
 }
