@@ -1,6 +1,5 @@
-﻿namespace Inventory.Web.Models.ViewModels
+﻿namespace Inventory.Web.Models.ViewModels;
+
+public class OrderItemViewModel
 {
-	public class OrderItemViewModel
-	{
-	}
 }
