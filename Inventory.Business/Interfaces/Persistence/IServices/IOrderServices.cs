@@ -11,6 +11,12 @@ public interface IOrderService
 			int id,
 			CancellationToken cancellationToken = default);
 
+	/// <summary>
+	/// Create Order and OrderItems in a single transaction, returns the created Order's Id
+	/// </summary>
+	/// <param name="dto"></param>
+	/// <param name="cancellationToken"></param>
+	/// <returns></returns>
 	Task<int> CreateAsync(
 			CreateOrderDto dto,
 			CancellationToken cancellationToken = default);
