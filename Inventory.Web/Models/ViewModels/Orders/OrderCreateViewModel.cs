@@ -1,11 +1,13 @@
 ﻿using Inventory.Business.DTOs.Products;
-using Inventory.Web.Models.ViewModels.Orders;
 
-public class OrderCreateViewModel
+namespace Inventory.Web.Models.ViewModels.Orders
 {
-	public string CustomerName { get; set; } = string.Empty;
+	public class OrderCreateViewModel
+	{
+		public string CustomerName { get; set; } = string.Empty;
 
-	public List<OrderItemViewModel> Items { get; set; } = new();
+		public List<OrderItemViewModel> Items { get; set; } = new();
 
-	public List<ProductLookupDto> Products { get; set; } = new(); // ✅ FIX
+		public List<ProductLookupDto> Products { get; set; } = new();
+	}
 }
