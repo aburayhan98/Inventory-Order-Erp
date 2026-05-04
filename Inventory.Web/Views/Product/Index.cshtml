@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Inventory.Business.DTOs.Products.ProductListDto>
+
+@{
+  ViewData["Title"] = "Products";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Products</h2>
+
+  <a asp-action="Create" class="btn btn-primary">
+    + Create Product
+  </a>
+</div>
+
+<div class="mb-3">
+  <input type="text"
+         id="searchBox"
+         class="form-control"
+         placeholder="Search by name or SKU..." />
+</div>
+
+<table class="table table-bordered table-striped">
+  <thead class="table-light">
+    <tr>
+      <th>Name</th>
+      <th>SKU</th>
+      <th>Price</th>
+      <th>Stock</th>
+      <th style="width: 180px;">Actions</th>
+    </tr>
+  </thead>
+
+  <tbody id="productTableBody">
+    @await Html.PartialAsync("_ProductTableRows", Model)
+  </tbody>
+</table>
+
+@section Scripts {
+  <script>
+    const searchBox = document.getElementById("searchBox");
+    const productTableBody = document.getElementById("productTableBody");
+
+    let timeout = null;
+
+    searchBox.addEventListener("keyup", function () {
+      clearTimeout(timeout);
+
+      timeout = setTimeout(() => {
+        const term = encodeURIComponent(searchBox.value);
+
+        fetch(`/Product/Search?term=${term}`)
+          .then(response => response.text())
+          .then(html => {
+            productTableBody.innerHTML = html;
+          });
+      }, 300);
+    });
+  </script>
+}
