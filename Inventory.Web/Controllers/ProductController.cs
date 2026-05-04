@@ -123,9 +123,7 @@ public sealed class ProductController(IProductService productService) : Controll
 	}
 
 	[HttpGet]
-	public async Task<IActionResult> Search(
-			string term,
-			CancellationToken cancellationToken)
+	public async Task<IActionResult> Search(string term, CancellationToken cancellationToken)
 	{
 		var products = await _productService.SearchAsync(term, cancellationToken);
 		return PartialView("_ProductTableRows", products);

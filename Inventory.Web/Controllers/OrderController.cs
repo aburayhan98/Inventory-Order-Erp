@@ -85,15 +85,31 @@ public sealed class OrderController : Controller
 	}
 
 	[HttpGet]
-	public async Task<IActionResult> Details(
-			int id,
-			CancellationToken cancellationToken)
+	public async Task<IActionResult> Details(int id, CancellationToken cancellationToken)
 	{
-		var order = await _orderService.GetDetailsAsync(id, cancellationToken);
+		var orderDto = await _orderService.GetDetailsAsync(id, cancellationToken);
 
-		if (order is null)
+		if (orderDto == null)
+		{
 			return NotFound();
+		}
 
-		return View(order);
+		var model = new OrderDetailsViewModel
+		{
+			Id = orderDto.Id,
+			CustomerName = orderDto.CustomerName,
+			OrderDate = orderDto.OrderDate,
+			TotalAmount = orderDto.TotalAmount,
+			Items = orderDto.Items.Select(i => new OrderDetailsItemViewModel
+			{
+				ProductId = i.ProductId,
+				ProductName = i.ProductName,
+				Sku = i.Sku,
+				Quantity = i.Quantity,
+				UnitPrice = i.UnitPrice
+			}).ToList()
+		};
+
+		return View(model);
 	}
 }
