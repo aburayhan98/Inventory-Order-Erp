@@ -1,0 +1,75 @@
+﻿@model Inventory.Web.Models.ViewModels.Orders.OrderDetailsViewModel
+
+@{
+  ViewData["Title"] = "Order Details";
+}
+
+<h2>Order Details</h2>
+
+<div class="card mb-4">
+  <div class="card-header">
+    Order Information
+  </div>
+
+  <div class="card-body">
+    <p>
+      <strong>Order ID:</strong> @Model.Id
+    </p>
+
+    <p>
+      <strong>Customer Name:</strong> @Model.CustomerName
+    </p>
+
+    <p>
+      <strong>Order Date:</strong> @Model.OrderDate.ToString("dd MMM yyyy hh:mm tt")
+    </p>
+
+    <p>
+      <strong>Total Amount:</strong> @Model.TotalAmount.ToString("0.00")
+    </p>
+  </div>
+</div>
+
+<h4>Order Items</h4>
+
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>SKU</th>
+      <th>Unit Price</th>
+      <th>Quantity</th>
+      <th>Line Total</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    @foreach (var item in Model.Items)
+    {
+      <tr>
+        <td>@item.ProductName</td>
+        <td>@item.Sku</td>
+        <td>@item.UnitPrice.ToString("0.00")</td>
+        <td>@item.Quantity</td>
+        <td>@item.LineTotal.ToString("0.00")</td>
+      </tr>
+    }
+  </tbody>
+
+  <tfoot>
+    <tr>
+      <th colspan="4" class="text-end">Grand Total</th>
+      <th>@Model.TotalAmount.ToString("0.00")</th>
+    </tr>
+  </tfoot>
+</table>
+
+<div class="d-flex gap-2">
+  <a asp-action="Index" class="btn btn-secondary">
+    Back to Orders
+  </a>
+
+  <a asp-action="Create" class="btn btn-primary">
+    Create New Order
+  </a>
+</div>
