@@ -50,5 +50,4 @@ public class OrderService(
 
 		return await _orderCommand.CreateAsync(normalizedDto, cancellationToken);
 	}
-
 }
