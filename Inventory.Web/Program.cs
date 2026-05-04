@@ -5,14 +5,42 @@ using Inventory.Business.Services;
 using Inventory.DataAccess.Connection;
 using Inventory.DataAccess.Data.Commands;
 using Inventory.DataAccess.Data.Queries;
-using Inventory.Web.Extensions;
+using Inventory.Web.Data;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// MVC
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 
-// Config / DB
+// Identity DbContext
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+		options.UseSqlServer(
+				builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Identity
+builder.Services
+		.AddDefaultIdentity<IdentityUser>(options =>
+		{
+			options.SignIn.RequireConfirmedAccount = false;
+			options.Password.RequireDigit = false;
+			options.Password.RequireUppercase = false;
+			options.Password.RequireNonAlphanumeric = false;
+			options.Password.RequiredLength = 6;
+		})
+		.AddEntityFrameworkStores<ApplicationDbContext>();
+
+// Require authenticated user globally
+builder.Services.AddAuthorization(options =>
+{
+	options.FallbackPolicy = new AuthorizationPolicyBuilder()
+			.RequireAuthenticatedUser()
+			.Build();
+});
+
+// Dapper config
 builder.Services.AddScoped<DbConfig>();
 
 // Product CQS
@@ -23,7 +51,7 @@ builder.Services.AddScoped<IProductQuery, ProductQuery>();
 builder.Services.AddScoped<IOrderCommand, OrderCommand>();
 builder.Services.AddScoped<IOrderQuery, OrderQuery>();
 
-// Business Services
+// Business services
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 
@@ -37,21 +65,16 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseGlobalExceptionHandling();
 
 app.UseRouting();
 
-app.UseRouting();
-
-// If Identity is not added yet, Authorization alone is okay for now.
-// Later add: app.UseAuthentication(); before UseAuthorization().
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
 		name: "default",
 		pattern: "{controller=Product}/{action=Index}/{id?}");
+
+app.MapRazorPages();
 
 app.Run();
