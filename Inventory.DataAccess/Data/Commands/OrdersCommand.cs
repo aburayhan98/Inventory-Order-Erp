@@ -101,8 +101,8 @@ public class OrderCommand(DbConfig dbConfig) : IOrderCommand
 						new
 						{
 							OrderId = orderId,
-							ProductId = item.ProductId,
-							Quantity = item.Quantity,
+							 item.ProductId,
+						   item.Quantity,
 							UnitPrice = product.Price
 						},
 						transaction);
@@ -117,8 +117,8 @@ public class OrderCommand(DbConfig dbConfig) : IOrderCommand
 						stockUpdateQuery,
 						new
 						{
-							ProductId = item.ProductId,
-							Quantity = item.Quantity
+							item.ProductId,
+							item.Quantity
 						},
 						transaction);
 
