@@ -83,4 +83,5 @@ public class OrderQuery(DbConfig dbConfig) : IOrderQuery
 		catch { throw; }
 		finally { connection?.Dispose(); }
 	}
+
 }
